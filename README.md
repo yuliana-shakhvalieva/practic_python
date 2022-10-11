@@ -1,2 +1,7 @@
-# practic_python
-Solving tasks that may be useful for interviews (university course)
+## practic_python
+Задачи, которые могут быть полезны при прохождении собеседований (университетский курс).
+
+#### Скрипты:
++ arrays.md - задачи про массивы;
++ matrix.md - задачи с матрицами;
++ string.md - задачи со строками.
