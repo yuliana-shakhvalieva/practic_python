@@ -1,28 +1,60 @@
-start_file_name = 'diagonal_sum.py'
-final_file_name = 'matrix.md'
+INPUT_CODE_DELIMITER = '# ---end----'
 
 
-def main():
-    start_file = open(start_file_name)
-    content = start_file.read()
-    start_file.close()
+def read_data(file_name):
+    file = open(file_name)
+    content = file.read()
+    file.close()
+    return content
 
-    content = content.split('# ---end---')
-    title = description = None
 
-    for line in content[0].split('\n'):
+def write_data(file_name, data):
+    file = open(file_name, 'w')
+    file.write(data)
+    file.close()
+
+
+def prepare_md_titles(data):
+    title, description = None, None
+
+    for line in data.split('\n'):
         if line.startswith('# title'):
             title = line.replace('# title ', '')
         elif line.startswith('# description'):
             description = line.replace('# description ', '')
 
-    format = ['+ [{}](#{})\n\n## {}\n\n'.format(title, '-'.join(title.lower().split()), title),
-                  description, '\n```python', content[1].split('\n', 1)[1], '\n```']
+    return title, description
 
-    final_file = open(final_file_name, 'w')
-    for el in format:
-        final_file.write(el)
+
+def prepare_md_format(title, description, source_code):
+    md_link = '-'.join(title.lower().split())
+
+    template = """+ [{}](#{})
+
+    ## {}
+
+    {}
+
+    ```python
+    {}
+    ```"""
+
+    return template.format(title, md_link, title, description, source_code.lstrip())
+
+
+def convert_data(data):
+    titles, source_code = data.split(INPUT_CODE_DELIMITER)
+    title, description = prepare_md_titles(titles)
+    result_md = prepare_md_format(title, description, source_code)
+    return result_md
+
+
+def main():
+    content = read_data('diagonal_sum.py')
+    result = convert_data(content)
+    write_data('matrix.md', result)
 
 
 if __name__ == "__main__":
     main()
+
