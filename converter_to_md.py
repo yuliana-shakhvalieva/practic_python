@@ -35,7 +35,7 @@ def md_concat(exist_content, new_content):
     for index, line in enumerate(str_list):
         if not line.startswith('+ ['):
             str_list.insert(index, new_link)
-            return '\n'.join(str_list) + '\n' + new_content[len(new_link) + 1:]
+            return '\n'.join(str_list) + new_content[len(new_link) + 1:]
 
 
 def prepare_md_titles(data):
