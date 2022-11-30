@@ -44,6 +44,7 @@ result = [digit for digit in range(1, 10001) if str(digit) == str(digit)[::-1]]
 string = "A simple sentence has the most basic elements that make it a sentence: a subject a verb and a completed thought"
 
 result = string.count(' ')
+result = len([sign for sign in string if sign == ' '])
 ```
 
 ## Task 5
@@ -70,7 +71,7 @@ result = [word for word in string.split() if len(word) <= 5]
 ```python
 string = "A simple sentence has the most basic elements that make it a sentence: a subject a verb and a completed thought"
 
-result = {word: len(word) for word in set(string.split())}
+result = {word: len(word) for word in string.split()}
 ```
 
 ## Task 8
@@ -80,7 +81,7 @@ result = {word: len(word) for word in set(string.split())}
 string = "A simple sentence has the most basic elements that make it a sentence: a subject a verb and a completed thought"
 
 result = list(set([letter for letter in list(string) if letter in [chr(i) for i in range(97, 123)]]))
-
+result = list(dict.fromkeys([letter for letter in list(string) if letter in [chr(i) for i in range(97, 123)]]).keys())
 ```
 
 ## Task 9
