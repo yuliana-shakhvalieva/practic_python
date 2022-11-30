@@ -162,4 +162,5 @@ a = [[11.9, 12.2, 12.9],
     [17.7, 17.5, 18.1]]
     
 result = [sum([row[i] for row in a]) for i in range(len(a[0]))]
+result = list(map(sum, zip(*a)))
 ```
