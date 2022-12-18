@@ -32,10 +32,13 @@ class ComplexTask(Task):
         self.subtasks = subtasks
 
     def __str__(self):
-        result = ''
-        for subtask in self.subtasks:
-            result += f'\n{subtask}'
-        return super().__str__() + result
+        if isinstance(self.subtasks, Subtask):
+            return super().__str__() + f'\n{self.subtasks}'
+        else:
+            result = ''
+            for subtask in self.subtasks:
+                result += f'\n{subtask}'
+            return super().__str__() + result
 
 
 class TaskManager:
@@ -70,44 +73,72 @@ class TaskManager:
         return new_complex_task
 
     def get_tasks(self):
+        if len(self.tasks) == 0:
+            print('No tasks')
         for key, value in self.tasks.items():
             print(f'{value}\n')
 
     def get_subtasks(self):
+        if len(self.tasks) == 0:
+            print('No subtasks')
         for key, value in self.subtasks.items():
             print(f'{value}\n')
 
     def get_complex_tasks(self):
+        if len(self.tasks) == 0:
+            print('No complex tasks')
         for key, value in self.complex_tasks.items():
             print(f'{value}\n')
 
     def get_tasks_by_id(self, id):
-        print(self.tasks[id])
+        if id in self.tasks.keys():
+            print(self.tasks[id])
+        else:
+            print('No task with such id')
 
     def get_subtasks_by_id(self, id):
-        print(self.subtasks[id])
+        if id in self.subtasks.keys():
+            print(self.subtasks[id])
+        else:
+            print('No subtask with such id')
 
     def get_complex_tasks_by_id(self, id):
-        print(self.complex_tasks[id])
+        if id in self.complex_tasks.keys():
+            print(self.complex_tasks[id])
+        else:
+            print('No complex task with such id')
 
     def remove_tasks(self):
         self.tasks = {}
 
     def remove_subtasks(self):
         self.subtasks = {}
+        for i in self.complex_tasks.keys():
+            self.complex_tasks[i].subtasks = []
 
     def remove_complex_tasks(self):
         self.complex_tasks = {}
 
     def remove_task_by_id(self, id):
-        self.tasks.pop(id)
+        if id in self.tasks.keys():
+            self.tasks.pop(id)
+        else:
+            print('No task with such id')
 
     def remove_subtask_by_id(self, id):
-        self.subtasks.pop(id)
+        if id in self.tasks.keys():
+            for j in self.complex_tasks.keys():
+                if id in self.complex_tasks[j].complex_tasks:
+                    self.complex_tasks[j].complex_tasks.remove(id)
+            self.subtasks.pop(id)
+        else:
+            print('No subtask with such id')
 
     def remove_complex_task_by_id(self, id):
-        self.complex_tasks.pop(id)
-
+        if id in self.tasks.keys():
+            self.complex_tasks.pop(id)
+        else:
+            print('No complex task with such id')
+        
     def update_status(self, id, new_status):
         self.tasks[id].status = new_status
-
