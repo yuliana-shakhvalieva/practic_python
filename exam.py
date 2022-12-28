@@ -9,21 +9,27 @@ class StrategyDeal:
     def get_targets(self):
         return self.targets
 
-    def get_target_percents(self):
-        return [(target / self.entry - 1) * 100 for target in self.targets]
+    def get_target_percents(self, tar):
+        return (tar / self.entry - 1) * 100
 
-    def get_target_banks(self):
-        return [self.bank * target / self.entry for target in self.targets]
+    def get_target_banks(self, tar):
+        return self.bank * tar / self.entry
 
-    def get_str_target(self, i):
-        target = f'{i + 1} target: {self.get_targets()[i]}\n'
-        percent = f'Percent: {round(self.get_target_percents()[i], 3)}%\n'
-        bank = f'Bank: {round(self.get_target_banks()[i], 3)}'
+    def get_str_target(self, idx, tar):
+        target = f'{idx + 1} target: {tar}\n'
+        percent = f'Percent: {round(self.get_target_percents(tar), 3)}%\n'
+        bank = f'Bank: {round(self.get_target_banks(tar), 3)}'
         return target + percent + bank
 
+    def get_str_targets(self):
+        return '\n\n'.join([self.get_str_target(i, tar) for i, tar in enumerate(self.targets)])
+
     def __str__(self):
-        targets = '\n\n'.join([self.get_str_target(i) for i in range(len(self.targets))])
-        return f'BANK: {self.bank}\nSTART_PRICE: {self.entry}\nSTOP_PRICE: {self.close}\n\n{targets}'
+        bank = f'BANK: {self.bank}\n'
+        start_price = f'START_PRICE: {self.entry}\n'
+        stop_price = f'STOP_PRICE: {self.close}\n\n'
+        targets = f'{self.get_str_targets()}'
+        return bank + start_price + stop_price + targets
 
 
 def read_data(file_name):
