@@ -46,10 +46,10 @@ def parse_data(content):
         if bank_index == -1 or entry_index == -1 or target_index == -1 or close_index == -1:
             raise Exception('File format does not follow the regular convention at deal #' + str(deal_index + 1))
 
-        bank = float(deal_raw[bank_index + 5:deal_raw.find('\n', bank_index) - 3])
+        bank = float(deal_raw[bank_index + 6:deal_raw.find('\n', bank_index) - 3])
         entry = float(deal_raw[entry_index + 7:deal_raw.find('\n', entry_index) - 3])
         target = [float(tar[:-3]) for tar in deal_raw[target_index + 8:deal_raw.find('\n', target_index)].split(';')]
-        close = float(deal_raw[close_index + 6:deal_raw.find('\n', close_index) - 3])
+        close = float(deal_raw[close_index + 7:deal_raw.find('\n', close_index) - 3])
 
         deals.append(StrategyDeal(bank, entry, target, close))
 
